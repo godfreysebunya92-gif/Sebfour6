@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebfour Co. - Premium Men's Fashion</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #c9a96e;
+            --bg: #fafaf8;
+            --card-bg: #fff;
+            --text: #2c2c2c;
+            --text-light: #6b6b6b;
+            --border: #e8e5df;
+            --shadow: 0 2px 16px rgba(0,0,0,0.06);
+            --shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
+            --radius: 10px;
+            --tag-new: #2e7d32;
+            --tag-sale: #c62828;
+            --tag-hot: #e65100;
+            --discount-bg: #fff3e0;
+            --whatsapp: #25D366;
+            --transition: 0.25s ease;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden;
+        }
+        /* Header */
+        .header {
+            background: #fff; border-bottom: 1px solid var(--border); position: sticky; top:0; z-index:100;
+            padding:0 20px; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+        .header-inner {
+            max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;
+            height:64px; gap:16px;
+        }
+        .logo { font-size:1.6rem; font-weight:700; letter-spacing:-0.5px; color:var(--primary); white-space:nowrap; cursor:pointer; text-decoration:none; }
+        .logo span { color:var(--accent); }
+        .search-bar { flex:1; max-width:420px; position:relative; }
+        .search-bar input {
+            width:100%; padding:10px 16px 10px 40px; border:2px solid var(--border); border-radius:50px;
+            font-size:0.9rem; outline:none; transition:var(--transition); background:#f9f9f7;
+        }
+        .search-bar input:focus { border-color:var(--accent); background:#fff; }
+        .search-bar .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#999; pointer-events:none; font-size:1rem; }
+        .header-actions { display:flex; align-items:center; gap:12px; }
+        .cart-btn {
+            position:relative; background:var(--primary); color:#fff; border:none; padding:10px 18px;
+            border-radius:50px; cursor:pointer; font-weight:600; font-size:0.9rem; transition:var(--transition);
+            display:flex; align-items:center; gap:6px;
+        }
+        .cart-btn:hover { background:#2a2a42; transform:translateY(-1px); }
+        .cart-count { background:#e74c3c; color:#fff; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; }
+        /* Category Nav */
+        .cat-nav {
+            background:#fff; border-bottom:1px solid var(--border); padding:0 20px; overflow-x:auto; white-space:nowrap; -webkit-overflow-scrolling:touch;
+        }
+        .cat-nav-inner { max-width:1400px; margin:0 auto; display:flex; gap:4px; padding:8px 0; }
+        .cat-btn {
+            padding:8px 16px; border-radius:50px; border:1.5px solid var(--border); background:#fff;
+            cursor:pointer; font-size:0.82rem; font-weight:500; transition:var(--transition); white-space:nowrap; color:var(--text);
+        }
+        .cat-btn:hover, .cat-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+        /* Main Layout */
+        .main-container { max-width:1400px; margin:0 auto; padding:20px; display:flex; gap:20px; position:relative; }
+        .filters-sidebar {
+            width:240px; flex-shrink:0; position:sticky; top:130px; align-self:flex-start;
+            max-height:calc(100vh - 150px); overflow-y:auto; background:#fff; border-radius:var(--radius);
+            padding:16px; box-shadow:var(--shadow);
+        }
+        .filters-sidebar h4 { font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-light); margin:14px 0 8px; }
+        .filters-sidebar h4:first-child { margin-top:0; }
+        .filter-option { display:flex; align-items:center; gap:8px; padding:6px 0; cursor:pointer; font-size:0.85rem; transition:var(--transition); }
+        .filter-option:hover { color:var(--accent); }
+        .filter-option input { accent-color:var(--accent); }
+        .color-swatch-filter { display:inline-block; width:18px; height:18px; border-radius:50%; border:2px solid #ddd; cursor:pointer; margin:2px 3px; transition:var(--transition); }
+        .color-swatch-filter:hover, .color-swatch-filter.selected { border-color:#333; transform:scale(1.2); box-shadow:0 0 0 3px rgba(0,0,0,0.08); }
+        .products-area { flex:1; min-width:0; }
+        .products-area h2 { margin-bottom:16px; font-size:1.3rem; color:var(--primary); }
+        .product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(270px, 1fr)); gap:18px; }
+        /* Product Card */
+        .product-card {
+            background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;
+            transition:var(--transition); position:relative; display:flex; flex-direction:column;
+        }
+        .product-card:hover { box-shadow:var(--shadow-hover); transform:translateY(-3px); }
+        .product-tag { position:absolute; top:10px; left:10px; z-index:5; padding:4px 10px; border-radius:50px; font-size:0.7rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; }
+        .tag-new { background:var(--tag-new); color:#fff; }
+        .tag-sale { background:var(--tag-sale); color:#fff; }
+        .tag-hot { background:var(--tag-hot); color:#fff; }
+        .tag-bestseller { background:#1a237e; color:#fff; }
+        /* Carousel */
+        .carousel-container { position:relative; width:100%; aspect-ratio:3/4; overflow:hidden; background:#f5f5f0; }
+        .carousel-slides { display:flex; width:100%; height:100%; transition:transform 0.4s ease; }
+        .carousel-slide { min-width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#f0f0eb; }
+        .carousel-slide img { width:100%; height:100%; object-fit:cover; cursor:zoom-in; }  /* 👈 Zoom cursor */
+        .carousel-dots { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:3; }
+        .carousel-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.7); border:1.5px solid rgba(0,0,0,0.3); cursor:pointer; transition:var(--transition); }
+        .carousel-dot.active { background:#fff; border-color:#333; width:22px; border-radius:10px; }
+        .carousel-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.85); border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1rem; z-index:4; transition:var(--transition); display:flex; align-items:center; justify-content:center; opacity:0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .carousel-container:hover .carousel-arrow { opacity:1; }
+        .carousel-arrow.prev { left:8px; }
+        .carousel-arrow.next { right:8px; }
+        .carousel-arrow:hover { background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+        .product-info { padding:14px; flex:1; display:flex; flex-direction:column; }
+        .product-name { font-weight:600; font-size:0.95rem; margin-bottom:4px; color:var(--primary); }
+        .product-desc { font-size:0.78rem; color:var(--text-light); margin-bottom:8px; line-height:1.4; }
+        .color-swatches { display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
+        .color-swatch { width:22px; height:22px; border-radius:50%; cursor:pointer; border:2px solid #ddd; transition:var(--transition); position:relative; }
+        .color-swatch:hover, .color-swatch.selected { border-color:#333; transform:scale(1.2); box-shadow:0 0 0 4px rgba(0,0,0,0.06); }
+        .color-swatch.selected::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:700; color:#fff; text-shadow:0 0 2px rgba(0,0,0,0.5); }
+        .size-selector { margin-bottom:8px; }
+        .size-selector select { width:100%; padding:7px 10px; border:1.5px solid var(--border); border-radius:6px; font-size:0.82rem; background:#fafaf8; cursor:pointer; }
+        .qty-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+        .qty-row input { width:50px; padding:6px; border:1.5px solid var(--border); border-radius:6px; text-align:center; font-size:0.85rem; }
+        .price-section { margin-bottom:10px; }
+        .price-current { font-size:1.15rem; font-weight:700; color:var(--primary); }
+        .price-discount-note { font-size:0.72rem; color:#c62828; font-weight:600; background:#ffebee; padding:3px 8px; border-radius:50px; display:inline-block; margin-top:2px; }
+        .add-to-cart-btn { width:100%; padding:10px; background:var(--primary); color:#fff; border:none; border-radius:50px; cursor:pointer; font-weight:600; font-size:0.85rem; transition:var(--transition); margin-top:auto; }
+        .add-to-cart-btn:hover { background:#2a2a42; letter-spacing:0.3px; }
+        .whatsapp-btn-sm { width:100%; padding:8px; background:var(--whatsapp); color:#fff; border:none; border-radius:50px; cursor:pointer; font-weight:600; font-size:0.8rem; transition:var(--transition); margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px; }
+        .whatsapp-btn-sm:hover { background:#1ebe57; letter-spacing:0.3px; }
+        /* Cart Sidebar */
+        .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:none; }
+        .cart-overlay.open { display:block; }
+        .cart-sidebar { position:fixed; right:-440px; top:0; bottom:0; width:420px; max-width:95vw; background:#fff; z-index:201; transition:right 0.35s ease; display:flex; flex-direction:column; box-shadow:-4px 0 30px rgba(0,0,0,0.15); }
+        .cart-sidebar.open { right:0; }
+        .cart-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+        .cart-header h3 { font-size:1.1rem; }
+        .cart-close { background:none; border:none; font-size:1.5rem; cursor:pointer; padding:4px 8px; }
+        .cart-items { flex:1; overflow-y:auto; padding:16px; }
+        .cart-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid #f0f0eb; }
+        .cart-item-img { width:70px; height:90px; object-fit:cover; border-radius:6px; background:#f5f5f0; }
+        .cart-item-details { flex:1; }
+        .cart-item-name { font-weight:600; font-size:0.9rem; }
+        .cart-item-meta { font-size:0.75rem; color:var(--text-light); }
+        .cart-item-price { font-weight:700; font-size:0.9rem; }
+        .cart-item-discount { font-size:0.7rem; color:#c62828; font-weight:600; }
+        .cart-item-remove { background:none; border:none; color:#c62828; cursor:pointer; font-size:0.8rem; padding:4px 0; }
+        .cart-footer { padding:16px 20px; border-top:1px solid var(--border); }
+        .cart-total { font-size:1.2rem; font-weight:700; margin-bottom:6px; }
+        .cart-savings { font-size:0.8rem; color:#2e7d32; margin-bottom:10px; }
+        .checkout-whatsapp { width:100%; padding:14px; background:var(--whatsapp); color:#fff; border:none; border-radius:50px; cursor:pointer; font-weight:700; font-size:1rem; transition:var(--transition); display:flex; align-items:center; justify-content:center; gap:8px; }
+        .checkout-whatsapp:hover { background:#1ebe57; }
+
+        /* Image Zoom Modal */
+        .image-zoom-modal {
+            display: none;
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.92); z-index: 500;
+            align-items: center; justify-content: center; flex-direction: column;
+        }
+        .image-zoom-modal.open { display: flex; }
+        .zoom-close {
+            position: absolute; top: 20px; right: 35px; font-size: 45px; color: #fff;
+            cursor: pointer; z-index: 1; line-height: 1; user-select: none;
+        }
+        .zoom-image {
+            max-width: 90%; max-height: 80vh; object-fit: contain;
+            transition: transform 0.25s ease; cursor: zoom-in;
+        }
+        .zoom-controls {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 12px; background: rgba(255,255,255,0.15); padding: 8px 20px;
+            border-radius: 50px; backdrop-filter: blur(6px);
+        }
+        .zoom-controls button {
+            background: #fff; border: none; border-radius: 50%; width: 44px; height: 44px;
+            font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: #333; transition: 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .zoom-controls button:hover { background: #f0f0f0; transform: scale(1.05); }
+
+        /* Admin & Invoice remain unchanged */
+        .admin-toggle { position:fixed; bottom:20px; right:20px; z-index:150; background:#333; color:#fff; border:none; padding:10px 16px; border-radius:50px; cursor:pointer; font-size:0.75rem; font-weight:600; opacity:0.6; transition:var(--transition); }
+        .admin-toggle:hover { opacity:1; }
+        .admin-modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:300; display:none; align-items:center; justify-content:center; }
+        .admin-modal.open { display:flex; }
+        .admin-panel { background:#fff; border-radius:12px; width:95vw; max-width:1100px; max-height:90vh; overflow-y:auto; padding:24px; position:relative; }
+        .admin-panel h2 { margin-bottom:16px; }
+        .admin-panel table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+        .admin-panel th, .admin-panel td { padding:8px; border:1px solid #ddd; text-align:left; }
+        .admin-panel th { background:#f5f5f0; font-weight:600; }
+        .admin-btn { padding:6px 12px; border-radius:6px; border:none; cursor:pointer; font-size:0.75rem; margin:2px; transition:var(--transition); }
+        .admin-btn.edit { background:#2196F3; color:#fff; }
+        .admin-btn.delete { background:#c62828; color:#fff; }
+        .admin-btn.save { background:#2e7d32; color:#fff; }
+        .admin-btn.add { background:var(--accent); color:#fff; }
+        .admin-close { position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.8rem; cursor:pointer; }
+        .invoice-modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:400; display:none; align-items:center; justify-content:center; }
+        .invoice-modal.open { display:flex; }
+        .invoice-panel { background:#fff; border-radius:12px; width:90vw; max-width:500px; max-height:90vh; overflow-y:auto; padding:24px; position:relative; }
+        .invoice-panel h3 { font-size:1.2rem; color:var(--primary); }
+        .invoice-details { margin:12px 0; font-size:0.85rem; }
+        .invoice-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:0.8rem; }
+        .invoice-table th, .invoice-table td { padding:6px; border-bottom:1px solid #eee; text-align:left; }
+        .invoice-table th { background:#f9f9f7; }
+        .invoice-total { font-size:1.1rem; font-weight:700; text-align:right; margin-top:8px; }
+        .invoice-btn { width:100%; padding:12px; background:var(--whatsapp); color:#fff; border:none; border-radius:50px; cursor:pointer; font-weight:700; margin-top:12px; }
+        .invoice-close { position:absolute; top:8px; right:12px; background:none; border:none; font-size:1.4rem; cursor:pointer; }
+
+        .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 24px; border-radius:50px; z-index:600; font-weight:600; font-size:0.9rem; animation:fadeInUp 0.3s ease; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+        @keyframes fadeInUp { from { opacity:0; transform:translateX(-50%) translateY(20px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+        @media (max-width:900px) {
+            .filters-sidebar { display:none; }
+            .product-grid { grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px; }
+            .cart-sidebar { width:100vw; right:-100vw; }
+        }
+        @media (max-width:500px) {
+            .product-grid { grid-template-columns:repeat(2, 1fr); gap:8px; }
+        }
+        .no-results { text-align:center; padding:60px 20px; color:var(--text-light); font-size:1.1rem; grid-column:1/-1; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-inner">
+        <a class="logo" onclick="resetFilters()">Seb<span>four</span> Co.</a>
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search products..." oninput="renderProducts()">
+        </div>
+        <div class="header-actions">
+            <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        </div>
+    </div>
+</header>
+
+<!-- Category Navigation -->
+<nav class="cat-nav" id="catNav">
+    <div class="cat-nav-inner">
+        <button class="cat-btn active" data-cat="all" onclick="setCategory('all',this)">All</button>
+        <button class="cat-btn" data-cat="Khaki Trousers" onclick="setCategory('Khaki Trousers',this)">Khaki Trousers</button>
+        <button class="cat-btn" data-cat="Jeans" onclick="setCategory('Jeans',this)">Jeans</button>
+        <button class="cat-btn" data-cat="Sweaterpants" onclick="setCategory('Sweaterpants',this)">Sweaterpants</button>
+        <button class="cat-btn" data-cat="Shorts" onclick="setCategory('Shorts',this)">Shorts</button>
+        <button class="cat-btn" data-cat="Cargopants" onclick="setCategory('Cargopants',this)">Cargopants</button>
+        <button class="cat-btn" data-cat="Beltless Trousers" onclick="setCategory('Beltless Trousers',this)">Beltless Trousers</button>
+        <button class="cat-btn" data-cat="Polo T-shirts" onclick="setCategory('Polo T-shirts',this)">Polo T-shirts</button>
+        <button class="cat-btn" data-cat="Long-sleeved T-shirts" onclick="setCategory('Long-sleeved T-shirts',this)">Long-sleeved T-shirts</button>
+        <button class="cat-btn" data-cat="Short-sleeved T-shirts" onclick="setCategory('Short-sleeved T-shirts',this)">Short-sleeved T-shirts</button>
+        <button class="cat-btn" data-cat="Long-sleeved Shirts" onclick="setCategory('Long-sleeved Shirts',this)">Long-sleeved Shirts</button>
+        <button class="cat-btn" data-cat="Short-sleeved Shirts" onclick="setCategory('Short-sleeved Shirts',this)">Short-sleeved Shirts</button>
+        <button class="cat-btn" data-cat="Jackets" onclick="setCategory('Jackets',this)">Jackets</button>
+        <button class="cat-btn" data-cat="Boxers" onclick="setCategory('Boxers',this)">Boxers</button>
+        <button class="cat-btn" data-cat="Underwear" onclick="setCategory('Underwear',this)">Underwear</button>
+        <button class="cat-btn" data-cat="Rubber T-shirts" onclick="setCategory('Rubber T-shirts',this)">Rubber T-shirts</button>
+        <button class="cat-btn" data-cat="Open Shoes" onclick="setCategory('Open Shoes',this)">Open Shoes</button>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-container">
+    <aside class="filters-sidebar" id="filtersSidebar">
+        <h4>📁 Category</h4>
+        <div id="sidebarCategories"></div>
+        <h4>🎨 Color</h4>
+        <div id="sidebarColors"></div>
+        <h4>📏 Size</h4>
+        <div id="sidebarSizes"></div>
+        <button onclick="clearFilters()" style="width:100%;padding:8px;margin-top:10px;border-radius:50px;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-weight:600;">Clear Filters</button>
+    </aside>
+    <div class="products-area" id="productsArea">
+        <h2 id="productsHeading">All Products</h2>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+</div>
+
+<!-- Cart Overlay -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>🛒 Your Cart</h3><button class="cart-close" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter">
+        <div class="cart-total" id="cartTotal">Total: UGX 0</div>
+        <div class="cart-savings" id="cartSavings"></div>
+        <button class="checkout-whatsapp" onclick="showCartInvoice()">💬 Order via WhatsApp (Invoice)</button>
+    </div>
+</div>
+
+<!-- Invoice Modal -->
+<div class="invoice-modal" id="invoiceModal">
+    <div class="invoice-panel" id="invoicePanelContent"></div>
+</div>
+
+<!-- Image Zoom Modal -->
+<div class="image-zoom-modal" id="imageZoomModal">
+    <span class="zoom-close" id="zoomCloseBtn">&times;</span>
+    <img class="zoom-image" id="zoomImage" src="" alt="Zoomed product view">
+    <div class="zoom-controls">
+        <button id="zoomInBtn" title="Zoom in">+</button>
+        <button id="zoomOutBtn" title="Zoom out">−</button>
+        <button id="zoomResetBtn" title="Reset zoom">↺</button>
+    </div>
+</div>
+
+<!-- Admin Toggle -->
+<button class="admin-toggle" onclick="openAdmin()">⚙️ Admin</button>
+
+<!-- Admin Modal -->
+<div class="admin-modal" id="adminModal">
+    <div class="admin-panel" id="adminPanel">
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
+        <h2>🔧 Admin Panel - Sebfour Co.</h2>
+        <p style="font-size:0.8rem;color:#888;margin-bottom:12px;">Manage products, images, prices. Changes save automatically.</p>
+        <button class="admin-btn add" onclick="showAddProductForm()">+ Add New Product</button>
+        <div id="adminProductForm" style="display:none;margin:12px 0;padding:12px;background:#f9f9f7;border-radius:8px;"></div>
+        <div style="overflow-x:auto;margin-top:12px;">
+            <table id="adminTable">
+                <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Colors</th><th>Tag</th><th>Actions</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <div id="adminImageManager" style="margin-top:16px;padding:12px;background:#fafaf8;border-radius:8px;display:none;"></div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
+<script>
+    // ==================== PRODUCT DATA ====================
+    const TROUSER_SIZES = ['30','31','32','33','34','36','38','40'];
+    const TOP_SIZES = ['S','M','L','XL','XXL','3XL'];
+    const SHOE_SIZES = ['40','41','42','43','44','45'];
+    const TROUSER_COLORS = ['Black','White','Navy Blue','Maroon','Army Green','Dark Grey','Khaki','Brown','Burgundy'];
+    const TOP_COLORS = ['White','Black','Maroon','Cream','Red','Green','Brown'];
+    const SHOE_COLORS = ['Black','White','Brown'];
+
+    function getPlaceholderImages(seed, count = 3) {
+        const imgs = [];
+        for (let i = 0; i < count; i++) imgs.push(`https://picsum.photos/seed/${seed}${i}/400/500`);
+        return imgs;
+    }
+    const colorHexMap = {
+        'Black':'#1a1a1a','White':'#f5f5f0','Navy Blue':'#1a2a40','Maroon':'#5c1a1a',
+        'Army Green':'#3d4a2e','Dark Grey':'#4a4a4a','Khaki':'#b8a88a','Brown':'#5c3a1e',
+        'Burgundy':'#4a1020','Cream':'#f5eedc','Red':'#b82020','Green':'#2e5c2e',
+    };
+    function getColorHex(c) { return colorHexMap[c] || '#888'; }
+
+    function generateAllProducts() {
+        const products = []; let id = 1;
+        function addProduct(name, category, price, sizes, colors, tag, desc, seed = null) {
+            const colorImages = {}; const base = seed || id;
+            colors.forEach((c, ci) => colorImages[c] = getPlaceholderImages(base*100+ci, 3));
+            products.push({ id, name, category, price, sizes, colors, colorImages, tag: tag||'', description: desc||`Premium ${name}.`, currentColor:colors[0], currentSlide:0 });
+            id++;
+        }
+        const khakiVariants = [
+            { name:'Classic Khaki Trouser', colors:['Khaki','Brown','Dark Grey'], tag:'BESTSELLER' },
+            { name:'Slim Fit Khaki Trouser', colors:['Khaki','Navy Blue','Black'], tag:'NEW' },
+            { name:'Relaxed Khaki Trouser', colors:['Khaki','Army Green','Brown'] },
+            { name:'Premium Khaki Dress Pant', colors:['Black','Navy Blue','Dark Grey'], tag:'HOT' },
+            { name:'Stretch Khaki Trouser', colors:['Khaki','Black','Navy Blue'], tag:'NEW' },
+            { name:'Vintage Wash Khaki', colors:['Brown','Khaki','Army Green'] },
+            { name:'Tailored Khaki Trouser', colors:['Navy Blue','Black','Dark Grey'], tag:'BESTSELLER' },
+            { name:'Casual Khaki Chino', colors:['Khaki','White','Brown'] },
+        ];
+        khakiVariants.forEach(v => addProduct(v.name, 'Khaki Trousers', 85000, TROUSER_SIZES, v.colors, v.tag, v.desc||''));
+        const jeansVariants = [
+            { name:'Slim Fit Jeans', colors:['Black','Navy Blue','Dark Grey'], tag:'BESTSELLER' },
+            { name:'Straight Cut Jeans', colors:['Navy Blue','Black','Dark Grey'] },
+            { name:'Tapered Jeans', colors:['Black','Dark Grey','Navy Blue'], tag:'NEW' },
+            { name:'Distressed Jeans', colors:['Navy Blue','Black','Dark Grey'], tag:'HOT' },
+            { name:'Stretch Denim Jeans', colors:['Black','Navy Blue','Dark Grey'] },
+            { name:'Classic Blue Jean', colors:['Navy Blue','Black'], tag:'BESTSELLER' },
+            { name:'Black Denim Jean', colors:['Black','Dark Grey'], tag:'NEW' },
+            { name:'Relaxed Fit Jean', colors:['Navy Blue','Black','Dark Grey'] },
+        ];
+        jeansVariants.forEach(v => addProduct(v.name, 'Jeans', 95000, TROUSER_SIZES, v.colors, v.tag, v.desc||''));
+        for(let i=1;i<=6;i++) addProduct(`Cozy Sweaterpant ${i}`, 'Sweaterpants', 78000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+2)%8], TROUSER_COLORS[(i+4)%8]], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Casual Short ${i}`, 'Shorts', 55000, ['30','32','34','36','38','40'], [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8]], i<=2?'NEW':'');
+        for(let i=1;i<=7;i++) addProduct(`Utility Cargopant ${i}`, 'Cargopants', 92000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8], 'Black'], i===1?'HOT':'');
+        for(let i=1;i<=7;i++) addProduct(`Beltless Trouser ${i}`, 'Beltless Trousers', 88000, TROUSER_SIZES, [TROUSER_COLORS[i%8], 'Black','Navy Blue'], i<=2?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Classic Polo ${i}`, 'Polo T-shirts', 45000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], TOP_COLORS[(i+4)%7]], i===1?'BESTSELLER':'');
+        for(let i=1;i<=6;i++) addProduct(`Long-sleeve Tee ${i}`, 'Long-sleeved T-shirts', 40000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+3)%7]], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Essential Tee ${i}`, 'Short-sleeved T-shirts', 32000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], 'White'], i<=2?'HOT':'');
+        for(let i=1;i<=7;i++) addProduct(`Formal LS Shirt ${i}`, 'Long-sleeved Shirts', 65000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Black'], i===1?'BESTSELLER':'');
+        for(let i=1;i<=7;i++) addProduct(`Casual SS Shirt ${i}`, 'Short-sleeved Shirts', 55000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Cream'], i===1?'NEW':'');
+        for(let i=1;i<=6;i++) addProduct(`Stylish Jacket ${i}`, 'Jackets', 120000, TOP_SIZES, ['Black','Navy Blue','Dark Grey','Army Green','Brown','Maroon'].slice(0,3), i===1?'HOT':'');
+        for(let i=1;i<=6;i++) addProduct(`Cotton Boxer ${i}`, 'Boxers', 18000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White']);
+        for(let i=1;i<=6;i++) addProduct(`Comfort Underwear ${i}`, 'Underwear', 15000, TOP_SIZES, ['Black','White','Dark Grey']);
+        for(let i=1;i<=5;i++) addProduct(`Rubber Print Tee ${i}`, 'Rubber T-shirts', 38000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White'], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Open Sandal ${i}`, 'Open Shoes', 70000, SHOE_SIZES, SHOE_COLORS, i<=2?'BESTSELLER':'');
+        return products;
+    }
+
+    let allProducts = generateAllProducts();
+    (function(){ const saved = localStorage.getItem('sebfour_products'); if(saved) try { const p=JSON.parse(saved); if(Array.isArray(p)&&p.length) allProducts=p; } catch(e){} })();
+    function saveProducts() { localStorage.setItem('sebfour_products', JSON.stringify(allProducts)); }
+
+    let cart = JSON.parse(localStorage.getItem('sebfour_cart') || '[]');
+    function saveCart() { localStorage.setItem('sebfour_cart', JSON.stringify(cart)); }
+
+    let activeCategory = 'all', activeColorFilter = null, activeSizeFilter = null;
+
+    function getFilteredProducts() {
+        const term = (document.getElementById('searchInput').value||'').toLowerCase();
+        return allProducts.filter(p => {
+            if(activeCategory!=='all' && p.category!==activeCategory) return false;
+            if(activeColorFilter && !p.colors.includes(activeColorFilter)) return false;
+            if(activeSizeFilter && !p.sizes.includes(activeSizeFilter)) return false;
+            if(term && !p.name.toLowerCase().includes(term) && !p.category.toLowerCase().includes(term) && !p.description.toLowerCase().includes(term)) return false;
+            return true;
+        });
+    }
+
+    function renderProducts() {
+        const grid = document.getElementById('productGrid');
+        const filtered = getFilteredProducts();
+        document.getElementById('productsHeading').textContent = activeCategory==='all'?'All Products':activeCategory;
+        if(!filtered.length) { grid.innerHTML = '<div class="no-results">No products found.</div>'; }
+        else { grid.innerHTML = filtered.map(p => createProductCard(p)).join(''); }
+        document.querySelectorAll('.product-card').forEach(card => {
+            const pid = parseInt(card.dataset.pid);
+            const product = allProducts.find(p=>p.id===pid);
+            if(!product) return;
+            card.querySelectorAll('.color-swatch').forEach(swatch => {
+                swatch.addEventListener('click', (e) => {
+                    e.stopPropagation(); const color = swatch.dataset.color;
+                    product.currentColor = color; product.currentSlide = 0;
+                    updateCarouselForCard(card, product, color);
+                    card.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));
+                    swatch.classList.add('selected');
+                });
+            });
+            card.querySelector('.carousel-arrow.prev')?.addEventListener('click', (e) => {
+                e.stopPropagation(); product.currentSlide = Math.max(0, product.currentSlide-1);
+                updateCarouselForCard(card, product, product.currentColor);
+            });
+            card.querySelector('.carousel-arrow.next')?.addEventListener('click', (e) => {
+                e.stopPropagation(); const max = (product.colorImages[product.currentColor]?.length||3)-1;
+                product.currentSlide = Math.min(max, product.currentSlide+1);
+                updateCarouselForCard(card, product, product.currentColor);
+            });
+            card.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation(); product.currentSlide = parseInt(dot.dataset.slide);
+                    updateCarouselForCard(card, product, product.currentColor);
+                });
+            });
+            card.querySelector('.add-to-cart-btn')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const size = card.querySelector('.size-select')?.value || product.sizes[0];
+                const qty = parseInt(card.querySelector('.qty-input')?.value || 1);
+                addToCart(product, size, product.currentColor, qty);
+            });
+            card.querySelector('.whatsapp-btn-sm')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const size = card.querySelector('.size-select')?.value || product.sizes[0];
+                const qty = parseInt(card.querySelector('.qty-input')?.value || 1);
+                buyNowInvoice(product, size, product.currentColor, qty);
+            });
+        });
+        updateCartCount(); updateSidebarFilters();
+    }
+
+    function updateCarouselForCard(card, product, color) {
+        const slides = card.querySelector('.carousel-slides');
+        const dots = card.querySelector('.carousel-dots');
+        const images = product.colorImages[color] || getPlaceholderImages(product.id*100, 3);
+        const slide = product.currentSlide || 0;
+        slides.innerHTML = images.map((img,i)=>`<div class="carousel-slide" style="min-width:100%;"><img src="${img}" alt="view ${i+1}" loading="lazy" onerror="this.src='https://picsum.photos/400/500?random=fallback${product.id}${i}'"></div>`).join('');
+        slides.style.transform = `translateX(-${slide*100}%)`;
+        dots.innerHTML = images.map((_,i)=>`<span class="carousel-dot${i===slide?' active':''}" data-slide="${i}"></span>`).join('');
+        dots.querySelectorAll('.carousel-dot').forEach(dot => {
+            dot.addEventListener('click', (e) => { e.stopPropagation(); product.currentSlide = parseInt(dot.dataset.slide); updateCarouselForCard(card, product, color); });
+        });
+    }
+
+    function createProductCard(product) {
+        const color = product.currentColor || product.colors[0];
+        const images = product.colorImages[color] || getPlaceholderImages(product.id*100, 3);
+        const slide = product.currentSlide || 0;
+        let tagHTML = ''; if(product.tag) { const map={'new':'tag-new','hot':'tag-hot','bestseller':'tag-bestseller','sale':'tag-sale'}; tagHTML = `<span class="product-tag ${map[product.tag.toLowerCase()]||'tag-new'}">${product.tag}</span>`; }
+        return `
+        <div class="product-card" data-pid="${product.id}">
+            ${tagHTML}
+            <div class="carousel-container">
+                <div class="carousel-slides" style="transform:translateX(-${slide*100}%);">
+                    ${images.map((img,i)=>`<div class="carousel-slide"><img src="${img}" alt="view ${i+1}" loading="lazy" onerror="this.src='https://picsum.photos/400/500?random=fallback${product.id}${i}'"></div>`).join('')}
+                </div>
+                <div class="carousel-dots">${images.map((_,i)=>`<span class="carousel-dot${i===slide?' active':''}" data-slide="${i}"></span>`).join('')}</div>
+                <button class="carousel-arrow prev">◀</button>
+                <button class="carousel-arrow next">▶</button>
+            </div>
+            <div class="product-info">
+                <div class="product-name">${product.name}</div>
+                <div class="product-desc">${product.description}</div>
+                <div class="color-swatches">${product.colors.map(c=>`<span class="color-swatch${c===color?' selected':''}" data-color="${c}" style="background:${getColorHex(c)}" title="${c}"></span>`).join('')}</div>
+                <div class="size-selector"><select class="size-select">${product.sizes.map(s=>`<option value="${s}">Size: ${s}</option>`).join('')}</select></div>
+                <div class="qty-row"><span>Qty:</span><input type="number" class="qty-input" value="1" min="1" max="20"></div>
+                <div class="price-section"><span class="price-current">UGX ${product.price.toLocaleString()}</span><br><span class="price-discount-note">Buy 2+ same items = 10% OFF</span></div>
+                <button class="add-to-cart-btn">🛒 Add to Cart</button>
+                <button class="whatsapp-btn-sm">💬 Order via WhatsApp</button>
+            </div>
+        </div>`;
+    }
+
+    function updateSidebarFilters() {
+        const allCats = [...new Set(allProducts.map(p=>p.category))];
+        document.getElementById('sidebarCategories').innerHTML = allCats.map(c=>`<label class="filter-option"><input type="radio" name="sidebarCat" ${activeCategory===c?'checked':''} onchange="setCategory('${c.replace(/'/g,"\\'")}')"> ${c}</label>`).join('') + `<label class="filter-option"><input type="radio" name="sidebarCat" ${activeCategory==='all'?'checked':''} onchange="setCategory('all')"> All</label>`;
+        const allColors = [...new Set(allProducts.flatMap(p=>p.colors))];
+        document.getElementById('sidebarColors').innerHTML = allColors.map(c=>`<span class="color-swatch-filter${activeColorFilter===c?' selected':''}" style="background:${getColorHex(c)}" title="${c}" onclick="setColorFilter('${c.replace(/'/g,"\\'")}')"></span>`).join('');
+        const allSizes = [...new Set(allProducts.flatMap(p=>p.sizes))].sort((a,b)=>(parseInt(a)-parseInt(b))||a.localeCompare(b));
+        document.getElementById('sidebarSizes').innerHTML = allSizes.map(s=>`<label class="filter-option"><input type="radio" name="sidebarSize" ${activeSizeFilter===s?'checked':''} onchange="setSizeFilter('${s}')"> Size ${s}</label>`).join('');
+    }
+
+    function updateCartCount() { document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0); }
+    function renderCart() {
+        const c = document.getElementById('cartItems');
+        if(!cart.length) { c.innerHTML='<p style="text-align:center;color:#999;padding:40px;">Cart empty.</p>'; document.getElementById('cartTotal').textContent='Total: UGX 0'; document.getElementById('cartSavings').textContent=''; }
+        else {
+            let subtotal=0, savings=0;
+            c.innerHTML = cart.map((item,idx)=>{
+                const hasDisc = item.qty>=2, unit = hasDisc ? Math.round(item.price*0.9) : item.price;
+                const line = unit*item.qty, lineSave = hasDisc ? (item.price-unit)*item.qty : 0;
+                subtotal+=line; savings+=lineSave;
+                return `<div class="cart-item"><img class="cart-item-img" src="${item.image}" onerror="this.src='https://picsum.photos/70/90?random=cart${idx}'"><div class="cart-item-details"><div class="cart-item-name">${item.name}</div><div class="cart-item-meta">Size: ${item.size} | Color: ${item.color} | Qty: ${item.qty}</div><div class="cart-item-price">UGX ${line.toLocaleString()}</div>${hasDisc?`<div class="cart-item-discount">10% bulk discount! Saved UGX ${lineSave.toLocaleString()}</div>`:''}<button class="cart-item-remove" onclick="removeCartItem(${idx})">Remove</button></div></div>`;
+            }).join('');
+            document.getElementById('cartTotal').textContent = `Total: UGX ${subtotal.toLocaleString()}`;
+            document.getElementById('cartSavings').textContent = savings>0?`🎉 You saved UGX ${savings.toLocaleString()}`:'';
+        }
+        updateCartCount();
+    }
+    function addToCart(product, size, color, qty) {
+        const idx = cart.findIndex(i=>i.productId===product.id && i.size===size && i.color===color);
+        if(idx>=0) cart[idx].qty+=qty;
+        else cart.push({ productId:product.id, name:product.name, price:product.price, size, color, qty, image:product.colorImages[color]?.[0]||`https://picsum.photos/seed/${product.id}/70/90`, category:product.category });
+        saveCart(); renderCart(); showToast(`✅ Added ${qty}x ${product.name}`);
+    }
+    function removeCartItem(idx) { cart.splice(idx,1); saveCart(); renderCart(); showToast('Item removed'); }
+
+    // ==================== IMAGE ZOOM ====================
+    let currentZoomLevel = 1;
+    const zoomModal = document.getElementById('imageZoomModal');
+    const zoomImg = document.getElementById('zoomImage');
+    const zoomCloseBtn = document.getElementById('zoomCloseBtn');
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const zoomResetBtn = document.getElementById('zoomResetBtn');
+
+    function openImageZoom(src) {
+        zoomImg.src = src;
+        currentZoomLevel = 1;
+        zoomImg.style.transform = `scale(1)`;
+        zoomImg.style.cursor = 'zoom-in';
+        zoomModal.classList.add('open');
+    }
+    function closeImageZoom() {
+        zoomModal.classList.remove('open');
+    }
+    function setZoom(level) {
+        currentZoomLevel = Math.min(3, Math.max(0.5, level));
+        zoomImg.style.transform = `scale(${currentZoomLevel})`;
+        zoomImg.style.cursor = currentZoomLevel > 1 ? 'zoom-out' : 'zoom-in';
+    }
+    function toggleZoom() {
+        setZoom(currentZoomLevel === 1 ? 2 : 1);
+    }
+    zoomCloseBtn.addEventListener('click', closeImageZoom);
+    zoomModal.addEventListener('click', (e) => { if(e.target === zoomModal) closeImageZoom(); });
+    zoomImg.addEventListener('dblclick', (e) => { e.preventDefault(); toggleZoom(); });
+    zoomInBtn.addEventListener('click', () => setZoom(currentZoomLevel + 0.5));
+    zoomOutBtn.addEventListener('click', () => setZoom(currentZoomLevel - 0.5));
+    zoomResetBtn.addEventListener('click', () => setZoom(1));
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && zoomModal.classList.contains('open')) closeImageZoom();
+    });
+
+    // Delegate click on product images to open zoom (only for carousel images)
+    document.getElementById('productsArea').addEventListener('click', function(e) {
+        if (e.target.tagName === 'IMG' && e.target.closest('.carousel-slide')) {
+            e.stopPropagation();
+            openImageZoom(e.target.src);
+        }
+    });
+
+    // ==================== INVOICE & WHATSAPP ====================
+    function generateOrderId() { return 'SEB-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,4).toUpperCase(); }
+    function showInvoiceModal(orderItems, total, savings, orderId) {
+        const modal = document.getElementById('invoiceModal');
+        const panel = document.getElementById('invoicePanelContent');
+        const now = new Date().toLocaleString();
+        panel.innerHTML = `
+            <button class="invoice-close" onclick="document.getElementById('invoiceModal').classList.remove('open')">✕</button>
+            <h3>🧾 Invoice ${orderId}</h3>
+            <div class="invoice-details"><strong>Sebfour Co.</strong><br>WhatsApp: +256 757 306640<br>Date: ${now}<br>Order ID: ${orderId}</div>
+            <table class="invoice-table"><thead><tr><th>#</th><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr></thead><tbody>${orderItems.map((item,i)=>`<tr><td>${i+1}</td><td>${item.name} (${item.size}, ${item.color})</td><td>${item.qty}</td><td>UGX ${item.unitPrice.toLocaleString()}</td><td>UGX ${(item.unitPrice*item.qty).toLocaleString()}</td></tr>`).join('')}</tbody></table>
+            <div class="invoice-total">${savings>0?`<small style="color:#2e7d32;">Discount: -UGX ${savings.toLocaleString()}</small><br>`:''}Total: UGX ${total.toLocaleString()}</div>
+            <button class="invoice-btn" id="sendInvoiceBtn">💬 Send Invoice via WhatsApp</button>`;
+        modal.classList.add('open');
+        document.getElementById('sendInvoiceBtn').addEventListener('click', () => {
+            let msg = `🧾 *Sebfour Co. Invoice*\nOrder ID: ${orderId}\nDate: ${now}\n\n`;
+            orderItems.forEach((item,i)=> msg += `*${i+1}.* ${item.name}\n   Size: ${item.size} | Color: ${item.color} | Qty: ${item.qty}\n   Unit: UGX ${item.unitPrice.toLocaleString()} | Subtotal: UGX ${(item.unitPrice*item.qty).toLocaleString()}\n`);
+            msg += `\n${savings>0?`💸 *Discount:* -UGX ${savings.toLocaleString()}\n`:''}💵 *Total: UGX ${total.toLocaleString()}*\n\n_Thank you!_`;
+            window.open(`https://wa.me/256757306640?text=${encodeURIComponent(msg)}`, '_blank');
+            modal.classList.remove('open');
+            cart = []; saveCart(); renderCart(); showToast('Invoice sent! Cart cleared.');
+        });
+    }
+    function buyNowInvoice(product, size, color, qty) {
+        const hasDisc = qty>=2, unit = hasDisc ? Math.round(product.price*0.9) : product.price;
+        const total = unit*qty, savings = hasDisc ? (product.price-unit)*qty : 0;
+        showInvoiceModal([{ name:product.name, size, color, qty, unitPrice:unit }], total, savings, generateOrderId());
+    }
+    function showCartInvoice() {
+        if(!cart.length) { showToast('Cart empty!'); return; }
+        const orderItems = cart.map(item => { const hasDisc=item.qty>=2, unit=hasDisc?Math.round(item.price*0.9):item.price; return {...item, unitPrice:unit}; });
+        let total=0, savings=0; orderItems.forEach(i=>{ total+=i.unitPrice*i.qty; savings+=(i.price-i.unitPrice)*i.qty; });
+        showInvoiceModal(orderItems, total, savings, generateOrderId());
+    }
+
+    // ==================== UI ====================
+    function toggleCart() {
+        const overlay = document.getElementById('cartOverlay'), sidebar = document.getElementById('cartSidebar');
+        if(sidebar.classList.contains('open')) { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+        else { renderCart(); sidebar.classList.add('open'); overlay.classList.add('open'); }
+    }
+    function setCategory(cat, btnEl) {
+        activeCategory=cat; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+        if(btnEl) btnEl.classList.add('active');
+        else (document.querySelector(`.cat-btn[data-cat="${cat}"]`)||document.querySelector('.cat-btn[data-cat="all"]')).classList.add('active');
+        renderProducts();
+    }
+    function setColorFilter(c) { activeColorFilter = activeColorFilter===c?null:c; renderProducts(); }
+    function setSizeFilter(s) { activeSizeFilter = activeSizeFilter===s?null:s; renderProducts(); }
+    function clearFilters() { activeCategory='all'; activeColorFilter=null; activeSizeFilter=null; document.getElementById('searchInput').value=''; document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active')); document.querySelector('.cat-btn[data-cat="all"]')?.classList.add('active'); renderProducts(); }
+    function resetFilters(){ clearFilters(); }
+    function showToast(msg){ const c=document.getElementById('toastContainer'); const t=document.createElement('div'); t.className='toast'; t.textContent=msg; c.appendChild(t); setTimeout(()=>t.remove(),2500); }
+
+    // ==================== ADMIN (password protected) ====================
+    function openAdmin() {
+        const password = prompt('🔐 Enter admin password:');
+        const ADMIN_PASSWORD = 'sebfour2024';   // CHANGE THIS
+        if(password === ADMIN_PASSWORD) { document.getElementById('adminModal').classList.add('open'); renderAdminTable(); }
+        else if(password !== null) showToast('❌ Access denied.');
+    }
+    function closeAdmin() { document.getElementById('adminModal').classList.remove('open'); document.getElementById('adminProductForm').style.display='none'; document.getElementById('adminImageManager').style.display='none'; renderProducts(); renderCart(); }
+    function renderAdminTable() {
+        document.getElementById('adminTableBody').innerHTML = allProducts.map(p=>`<tr><td>${p.id}</td><td>${p.name}</td><td>${p.category}</td><td>UGX ${p.price.toLocaleString()}</td><td>${p.colors.join(', ')}</td><td>${p.tag||'-'}</td><td><button class="admin-btn edit" onclick="editProduct(${p.id})">✏️ Edit</button><button class="admin-btn delete" onclick="deleteProduct(${p.id})">🗑️ Delete</button><button class="admin-btn" style="background:#ff9800;color:#fff;" onclick="manageImages(${p.id})">🖼️ Images</button></td></tr>`).join('');
+    }
+    function deleteProduct(id){ if(confirm('Delete?')){ allProducts=allProducts.filter(p=>p.id!==id); saveProducts(); renderAdminTable(); renderProducts(); showToast('Deleted'); } }
+    function editProduct(id) {
+        const p = allProducts.find(p=>p.id===id); if(!p) return;
+        const div = document.getElementById('adminProductForm'); div.style.display='block';
+        div.innerHTML = `<h4>Edit #${p.id}</h4><div class="admin-form"><label>Name</label><input type="text" id="editName" value="${p.name.replace(/"/g,'&quot;')}"><label>Category</label><select id="editCategory">${[...new Set(allProducts.map(x=>x.category))].map(c=>`<option value="${c}" ${p.category===c?'selected':''}>${c}</option>`).join('')}<option value="__new__">+ New</option></select><input type="text" id="editNewCategory" placeholder="New category" style="display:none;margin-top:4px;"><label>Price</label><input type="number" id="editPrice" value="${p.price}"><label>Sizes</label><input type="text" id="editSizes" value="${p.sizes.join(',')}"><label>Colors</label><input type="text" id="editColors" value="${p.colors.join(',')}"><label>Tag</label><select id="editTag"><option value="">None</option><option value="NEW" ${p.tag==='NEW'?'selected':''}>NEW</option><option value="HOT" ${p.tag==='HOT'?'selected':''}>HOT</option><option value="BESTSELLER" ${p.tag==='BESTSELLER'?'selected':''}>BESTSELLER</option><option value="SALE" ${p.tag==='SALE'?'selected':''}>SALE</option></select><label>Description</label><textarea id="editDesc" rows="2">${p.description}</textarea><br><button class="admin-btn save" onclick="saveProductEdit(${p.id})">💾 Save</button><button class="admin-btn" style="background:#888;color:#fff;" onclick="document.getElementById('adminProductForm').style.display='none'">Cancel</button></div>`;
+        document.getElementById('editCategory').addEventListener('change', function(){ document.getElementById('editNewCategory').style.display = this.value==='__new__'?'block':'none'; });
+        div.scrollIntoView({behavior:'smooth'});
+    }
+    function saveProductEdit(id) {
+        const p = allProducts.find(p=>p.id===id); if(!p) return;
+        let cat = document.getElementById('editCategory').value;
+        if(cat==='__new__'){ cat=document.getElementById('editNewCategory').value.trim(); if(!cat){alert('Enter category');return;} }
+        const name=document.getElementById('editName').value.trim(), price=parseInt(document.getElementById('editPrice').value)||p.price;
+        const sizes=document.getElementById('editSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+        const colors=document.getElementById('editColors').value.split(',').map(c=>c.trim()).filter(Boolean);
+        p.name=name; p.category=cat; p.price=price; p.sizes=sizes.length?sizes:p.sizes; p.colors=colors.length?colors:p.colors;
+        p.tag=document.getElementById('editTag').value; p.description=document.getElementById('editDesc').value.trim();
+        colors.forEach(c=>{ if(!p.colorImages[c]) p.colorImages[c]=getPlaceholderImages(p.id*100+colors.indexOf(c),3); });
+        Object.keys(p.colorImages).forEach(c=>{ if(!colors.includes(c)) delete p.colorImages[c]; });
+        if(!p.colorImages[p.currentColor]) p.currentColor=colors[0];
+        saveProducts(); document.getElementById('adminProductForm').style.display='none'; renderAdminTable(); renderProducts(); showToast('Saved!');
+    }
+    function showAddProductForm() {
+        const div=document.getElementById('adminProductForm'); div.style.display='block';
+        const newId=Math.max(...allProducts.map(p=>p.id),0)+1;
+        div.innerHTML=`<h4>Add Product</h4><div class="admin-form"><label>Name</label><input type="text" id="editName" value="New"><label>Category</label><select id="editCategory">${[...new Set(allProducts.map(p=>p.category))].map(c=>`<option value="${c}">${c}</option>`).join('')}<option value="__new__">+ New</option></select><input type="text" id="editNewCategory" placeholder="New category" style="display:none;"><label>Price</label><input type="number" id="editPrice" value="50000"><label>Sizes</label><input type="text" id="editSizes" value="S,M,L"><label>Colors</label><input type="text" id="editColors" value="Black,White"><label>Tag</label><select id="editTag"><option value="">None</option><option>NEW</option><option>HOT</option><option>BESTSELLER</option><option>SALE</option></select><label>Desc</label><textarea id="editDesc" rows="2">New product.</textarea><br><button class="admin-btn save" onclick="saveNewProduct(${newId})">➕ Add</button><button class="admin-btn" style="background:#888;color:#fff;" onclick="document.getElementById('adminProductForm').style.display='none'">Cancel</button></div>`;
+        document.getElementById('editCategory').addEventListener('change', function(){ document.getElementById('editNewCategory').style.display = this.value==='__new__'?'block':'none'; });
+        div.scrollIntoView({behavior:'smooth'});
+    }
+    function saveNewProduct(id) {
+        let cat=document.getElementById('editCategory').value; if(cat==='__new__'){ cat=document.getElementById('editNewCategory').value.trim(); if(!cat){alert('Category needed');return;} }
+        const name=document.getElementById('editName').value.trim(), price=parseInt(document.getElementById('editPrice').value)||50000;
+        const sizes=document.getElementById('editSizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+        const colors=document.getElementById('editColors').value.split(',').map(c=>c.trim()).filter(Boolean);
+        if(!name||!cat||!colors.length||!sizes.length){ alert('Fill all'); return; }
+        const colorImages={}; colors.forEach((c,ci)=>colorImages[c]=getPlaceholderImages(id*100+ci,3));
+        allProducts.push({ id, name, category:cat, price, sizes, colors, colorImages, tag:document.getElementById('editTag').value, description:document.getElementById('editDesc').value.trim(), currentColor:colors[0], currentSlide:0 });
+        saveProducts(); document.getElementById('adminProductForm').style.display='none'; renderAdminTable(); renderProducts(); showToast('Added!');
+    }
+    function manageImages(id) {
+        const p=allProducts.find(p=>p.id===id); if(!p) return;
+        const mgr=document.getElementById('adminImageManager'); mgr.style.display='block';
+        let html=`<h4>🖼️ ${p.name}</h4>`;
+        Object.keys(p.colorImages).forEach(color=>{
+            const imgs=p.colorImages[color];
+            html+=`<div style="margin:8px 0;padding:8px;background:#fff;border-radius:6px;"><strong>🎨 ${color}</strong> (${imgs.length} images)<div class="admin-image-thumbs">${imgs.map((img,i)=>`<div style="position:relative;display:inline-block;"><img class="admin-image-thumb" src="${img}" onerror="this.src='https://picsum.photos/50/65?random=thumb${id}${i}'"><button class="admin-btn delete" style="position:absolute;top:-6px;right:-6px;font-size:0.6rem;padding:2px 6px;" onclick="deleteProductImage(${id},'${color.replace(/'/g,"\\'")}',${i})">✕</button></div>`).join('')}</div><input type="text" placeholder="Add URL" id="newImgUrl_${id}_${color.replace(/[^a-zA-Z0-9]/g,'_')}" style="width:70%;display:inline-block;margin-top:4px;"><button class="admin-btn save" onclick="addProductImage(${id},'${color.replace(/'/g,"\\'")}')" style="display:inline-block;">+ Add</button></div>`;
+        });
+        html+=`<button class="admin-btn" style="background:#888;color:#fff;margin-top:8px;" onclick="document.getElementById('adminImageManager').style.display='none'">Close</button>`;
+        mgr.innerHTML=html; mgr.scrollIntoView({behavior:'smooth'});
+    }
+    function deleteProductImage(pid,color,idx) {
+        const p=allProducts.find(p=>p.id===pid); if(!p||!p.colorImages[color]) return;
+        if(p.colorImages[color].length<=1){ alert('Min 1 image required'); return; }
+        p.colorImages[color].splice(idx,1); saveProducts(); manageImages(pid); renderProducts(); showToast('Image deleted');
+    }
+    function addProductImage(pid,color) {
+        const inp=document.getElementById(`newImgUrl_${pid}_${color.replace(/[^a-zA-Z0-9]/g,'_')}`);
+        const url=inp?.value?.trim(); if(!url){alert('Enter URL');return;}
+        const p=allProducts.find(p=>p.id===pid); if(!p||!p.colorImages[color]) return;
+        p.colorImages[color].push(url); saveProducts(); manageImages(pid); renderProducts(); showToast('Image added');
+    }
+
+    // ==================== INIT ====================
+    function init() { renderProducts(); updateSidebarFilters(); updateCartCount(); renderCart(); }
+    document.addEventListener('keydown', (e) => {
+        if(e.key==='Escape') {
+            if(document.getElementById('cartSidebar').classList.contains('open')) toggleCart();
+            if(document.getElementById('invoiceModal').classList.contains('open')) document.getElementById('invoiceModal').classList.remove('open');
+            if(zoomModal.classList.contains('open')) closeImageZoom();
+            if(document.getElementById('adminModal').classList.contains('open')) closeAdmin();
+        }
+    });
+    init();
+</script>
+</body>
+</html>
