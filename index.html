@@ -251,6 +251,7 @@
         <button class="cat-btn" data-cat="Underwear" onclick="setCategory('Underwear',this)">Underwear</button>
         <button class="cat-btn" data-cat="Rubber T-shirts" onclick="setCategory('Rubber T-shirts',this)">Rubber T-shirts</button>
         <button class="cat-btn" data-cat="Open Shoes" onclick="setCategory('Open Shoes',this)">Open Shoes</button>
+        <button class="cat-btn" data-cat="Sneakers"  onclick="setCategory( 'Sneakers',this)">Sneakers</button>
     </div>
 </nav>
 
@@ -373,21 +374,21 @@
             { name:'Black Denim Jean', colors:['Black','Dark Grey'], tag:'NEW' },
             { name:'Relaxed Fit Jean', colors:['Navy Blue','Black','Dark Grey'] },
         ];
-        jeansVariants.forEach(v => addProduct(v.name, 'Jeans', 95000, TROUSER_SIZES, v.colors, v.tag, v.desc||''));
-        for(let i=1;i<=6;i++) addProduct(`Cozy Sweaterpant ${i}`, 'Sweaterpants', 78000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+2)%8], TROUSER_COLORS[(i+4)%8]], i===1?'NEW':'');
-        for(let i=1;i<=8;i++) addProduct(`Casual Short ${i}`, 'Shorts', 55000, ['30','32','34','36','38','40'], [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8]], i<=2?'NEW':'');
-        for(let i=1;i<=7;i++) addProduct(`Utility Cargopant ${i}`, 'Cargopants', 92000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8], 'Black'], i===1?'HOT':'');
-        for(let i=1;i<=7;i++) addProduct(`Beltless Trouser ${i}`, 'Beltless Trousers', 88000, TROUSER_SIZES, [TROUSER_COLORS[i%8], 'Black','Navy Blue'], i<=2?'NEW':'');
-        for(let i=1;i<=8;i++) addProduct(`Classic Polo ${i}`, 'Polo T-shirts', 45000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], TOP_COLORS[(i+4)%7]], i===1?'BESTSELLER':'');
-        for(let i=1;i<=6;i++) addProduct(`Long-sleeve Tee ${i}`, 'Long-sleeved T-shirts', 40000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+3)%7]], i===1?'NEW':'');
-        for(let i=1;i<=8;i++) addProduct(`Essential Tee ${i}`, 'Short-sleeved T-shirts', 32000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], 'White'], i<=2?'HOT':'');
-        for(let i=1;i<=7;i++) addProduct(`Formal LS Shirt ${i}`, 'Long-sleeved Shirts', 65000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Black'], i===1?'BESTSELLER':'');
-        for(let i=1;i<=7;i++) addProduct(`Casual SS Shirt ${i}`, 'Short-sleeved Shirts', 55000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Cream'], i===1?'NEW':'');
-        for(let i=1;i<=6;i++) addProduct(`Stylish Jacket ${i}`, 'Jackets', 120000, TOP_SIZES, ['Black','Navy Blue','Dark Grey','Army Green','Brown','Maroon'].slice(0,3), i===1?'HOT':'');
-        for(let i=1;i<=6;i++) addProduct(`Cotton Boxer ${i}`, 'Boxers', 18000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White']);
+        jeansVariants.forEach(v => addProduct(v.name, 'Jeans', 40000, TROUSER_SIZES, v.colors, v.tag, v.desc||''));
+        for(let i=1;i<=6;i++) addProduct(`Cozy Sweaterpant ${i}`, 'Sweaterpants', 35000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+2)%8], TROUSER_COLORS[(i+4)%8]], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Casual Short ${i}`, 'Shorts', 40000, ['30','32','34','36','38','40'], [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8]], i<=2?'NEW':'');
+        for(let i=1;i<=7;i++) addProduct(`Utility Cargopant ${i}`, 'Cargopants', 40000, TROUSER_SIZES, [TROUSER_COLORS[i%8], TROUSER_COLORS[(i+3)%8], 'Black'], i===1?'HOT':'');
+        for(let i=1;i<=7;i++) addProduct(`Beltless Trouser ${i}`, 'Beltless Trousers', 40000, TROUSER_SIZES, [TROUSER_COLORS[i%8], 'Black','Navy Blue'], i<=2?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Classic Polo ${i}`, 'Polo T-shirts', 25000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], TOP_COLORS[(i+4)%7]], i===1?'BESTSELLER':'');
+        for(let i=1;i<=6;i++) addProduct(`Long-sleeve Tee ${i}`, 'Long-sleeved T-shirts', 35000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+3)%7]], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Essential Tee ${i}`, 'Short-sleeved T-shirts', 35000, TOP_SIZES, [TOP_COLORS[i%7], TOP_COLORS[(i+2)%7], 'White'], i<=2?'HOT':'');
+        for(let i=1;i<=7;i++) addProduct(`Formal LS Shirt ${i}`, 'Long-sleeved Shirts', 40000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Black'], i===1?'BESTSELLER':'');
+        for(let i=1;i<=7;i++) addProduct(`Casual SS Shirt ${i}`, 'Short-sleeved Shirts', 35000, TOP_SIZES, [TOP_COLORS[i%7], 'White','Cream'], i===1?'NEW':'');
+        for(let i=1;i<=6;i++) addProduct(`Stylish Jacket ${i}`, 'Jackets', 65000, TOP_SIZES, ['Black','Navy Blue','Dark Grey','Army Green','Brown','Maroon'].slice(0,3), i===1?'HOT':'');
+        for(let i=1;i<=6;i++) addProduct(`Cotton Boxer ${i}`, 'Boxers', 10000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White']);
         for(let i=1;i<=6;i++) addProduct(`Comfort Underwear ${i}`, 'Underwear', 15000, TOP_SIZES, ['Black','White','Dark Grey']);
-        for(let i=1;i<=5;i++) addProduct(`Rubber Print Tee ${i}`, 'Rubber T-shirts', 38000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White'], i===1?'NEW':'');
-        for(let i=1;i<=8;i++) addProduct(`Open Sandal ${i}`, 'Open Shoes', 70000, SHOE_SIZES, SHOE_COLORS, i<=2?'BESTSELLER':'');
+        for(let i=1;i<=5;i++) addProduct(`Rubber Print Tee ${i}`, 'Rubber T-shirts', 32000, TOP_SIZES, [TOP_COLORS[i%7], 'Black','White'], i===1?'NEW':'');
+        for(let i=1;i<=8;i++) addProduct(`Open Sandal ${i}`, 'Open Shoes', 35000shs, SHOE_SIZES, SHOE_COLORS, i<=2?'BESTSELLER':'');
         return products;
     }
 
