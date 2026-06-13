@@ -251,7 +251,7 @@
         <button class="cat-btn" data-cat="Underwear" onclick="setCategory('Underwear',this)">Underwear</button>
         <button class="cat-btn" data-cat="Rubber T-shirts" onclick="setCategory('Rubber T-shirts',this)">Rubber T-shirts</button>
         <button class="cat-btn" data-cat="Open Shoes" onclick="setCategory('Open Shoes',this)">Open Shoes</button>
-        <button class="cat-btn" data-cat="Sneakers"  onclick="setCategory( 'Sneakers',this)">Sneakers</button>
+        <button class="cat-btn" data-cat="Sneakers" onclick="setCategory('Sneakers',this)">Sneakers</button>
     </div>
 </nav>
 
@@ -639,7 +639,7 @@
     // ==================== ADMIN (password protected) ====================
     function openAdmin() {
         const password = prompt('🔐 Enter admin password:');
-        const ADMIN_PASSWORD = 'sebfour2024';   // CHANGE THIS
+        const ADMIN_PASSWORD = 'sebfour';   // CHANGE THIS
         if(password === ADMIN_PASSWORD) { document.getElementById('adminModal').classList.add('open'); renderAdminTable(); }
         else if(password !== null) showToast('❌ Access denied.');
     }
